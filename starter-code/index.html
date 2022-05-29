@@ -3,61 +3,131 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@500&family=League+Spartan:wght@300;700&display=swap" rel="stylesheet">
   <title>Frontend Mentor | Planets fact site</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  Mercury
 
-  <!-- Overview Content Start -->
+  <header>
+    <h2>the planets</h2>
+    <div id="menu-bar" onclick="">
+      <div id="bar1" class="bar"></div>
+      <div id="bar2" class="bar"></div>
+      <div id="bar3" class="bar"></div>
+    </div>
+    <ol>
+      <li><h3>planet</h3></li>
+      <li><h3>planet</h3></li>
+      <li><h3>planet</h3></li>
+      <li><h3>planet</h3></li>
+      <li><h3>planet</h3></li>
+      <li><h3>planet</h3></li>
+      <li><h3>planet</h3></li>
+      <li><h3>planet</h3></li>
+    </ol>
+    <menu id="planet_ol">
+      <div class="planet_li">
+        <div class="planet_icon"></div>
+        <h3>planet</h3>
+        <img class="chevron" src="assets/icon-chevron.svg" alt="chevron">
+      </div>
+      <div class="planet_li">
+        <div class="planet_icon"></div>
+        <h3>planet</h3>
+        <img class="chevron" src="assets/icon-chevron.svg" alt="chevron">
+      </div>
+      <div class="planet_li">
+        <div class="planet_icon"></div>
+        <h3>planet</h3>
+        <img class="chevron" src="assets/icon-chevron.svg" alt="chevron">
+      </div>
+    </menu>
+    <hr>
+    
+  </header>
 
-  Mercury is the smallest planet in the Solar System and the closest 
-  to the Sun. Its orbit around the Sun takes 87.97 Earth days, the 
-  shortest of all the Sun's planets. Mercury is one of four terrestrial 
-  planets in the Solar System, and is a rocky body like Earth.
+  <main>
+    
+    <hr>
+    <section id="planet_space">
+      <img id="chevron1" src="assets/icon-chevron.svg" alt="chevron">
+      <img id="planet" src="assets/planet-jupiter-internal.svg" alt="planet_image">
+      <img id="chevron2" src="assets/icon-chevron.svg" alt="chevron">
+      <img id="planet_surface_tooltip" src="assets/geology-neptune.png" alt="">
+    </section>
+    <article>
+      <h1>planet name</h1>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae numquam et commodi, adipisci quae esse iste architecto atque odio quaerat. Voluptatum dolor deleniti a quis eos ea placeat voluptatibus quasi amet et officia, iure asperiores atque? Ullam ipsam laudantium enim?
+      </p>
+      <h4>
+        Source : <a href="https://en.wikipedia.org/wiki/Rickrolling">Wikipedia</a>
+      </h4>
+    </article>
+    <nav id="view_options">
+      <h3><span>01</span>Overview</h3>
+      <h3><span>02</span>Structure</h3>
+      <h3><span>03</span>surface</h3>
+    </nav>
 
-  Source : Wikipedia <!-- URL: https://en.wikipedia.org/wiki/Mercury_(planet) -->
+    
 
-  <!-- Overview Content End -->
+    <section class="facts">
+      <div>
+        <h4>field name</h4>
+        <h2>data value</h2>
+      </div>
+      <div>
+        <h4>field name</h4>
+        <h2>data value</h2>
+      </div>
+      <div>
+        <h4>field name</h4>
+        <h2>data value</h2>
+      </div>
+      <div>
+        <h4>field name</h4>
+        <h2>data value</h2>
+      </div>
+      <div>
+        <h4>field name</h4>
+        <h2>data value</h2>
+      </div>
+      <div>
+        <h4>field name</h4>
+        <h2>data value</h2>
+      </div>
+      <div>
+        <h4>field name</h4>
+        <h2>data value</h2>
+      </div>
+      <div>
+        <h4>field name</h4>
+        <h2>data value</h2>
+      </div>
+      <div>
+        <h4>field name</h4>
+        <h2>data value</h2>
+      </div>
+      <div>
+        <h4>field name</h4>
+        <h2>data value</h2>
+      </div>
+      <div>
+        <h4>field name</h4>
+        <h2>data value</h2>
+      </div>
+      <div>
+        <h4>field name</h4>
+        <h2>data value</h2>
+      </div>
+    </section>
+  </main>
+  <footer>
 
-  <!-- Internal Structure Content Start -->
-
-  Mercury appears to have a solid silicate crust and mantle overlying a 
-  solid, iron sulfide outer core layer, a deeper liquid core layer, and 
-  a solid inner core. The planet's density is the second highest in the 
-  Solar System at 5.427 g/cm3 , only slightly less than Earth's density.
-
-  Source : Wikipedia <!-- URL: https://en.wikipedia.org/wiki/Mercury_(planet)#Internal_structure -->
-
-  <!-- Internal Structure Content End -->
-
-  <!-- Surface Geology Content Start -->
-
-  Mercury's surface is similar in appearance to that of the Moon, showing 
-  extensive mare-like plains and heavy cratering, indicating that it has 
-  been geologically inactive for billions of years. It is more heterogeneous 
-  than either Mars's or the Moon’s.
-
-  Source : Wikipedia <!-- URL: https://en.wikipedia.org/wiki/Mercury_(planet)#Surface_geology -->
-
-  <!-- Surface Geology Content End -->
-
-  01 Overview
-  02 Internal Structure
-  03 Surface Geology
-
-  Rotation Time
-  58.6 Days
-
-  Revolution Time
-  87.97 Days
-
-  Radius
-  2,439.7 KM
-
-  Average Temp.
-  430°c
+  </footer>
 </body>
 </html>
