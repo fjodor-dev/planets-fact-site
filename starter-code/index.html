@@ -8,42 +8,190 @@
   <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@500&family=League+Spartan:wght@300;700&display=swap" rel="stylesheet">
   <title>Frontend Mentor | Planets fact site</title>
   <link rel="stylesheet" href="style.css">
+  <script src="script/jquery-3.6.0.min.js"></script>
+  <script>
+
+  $('document').ready(()=>{
+
+  /*////////////////////////////////////////////////////////
+  //              global variables declaretion            //
+  ////////////////////////////////////////////////////////*/
+
+    let planetNum = 2
+    let selectedView = 1
+    let planetCount = 0
+    
+    const cssRoot = $(":root")
+
+    const menuIcon = $("header #menu_bar")
+    const menuIconBar1 = $("header #menu_bar #bar1")
+    const menuIconBar2 = $("header #menu_bar #bar2")
+    const menuIconBar3 = $("header #menu_bar #bar3")
+
+    const headerOl = $("header ol")
+    const foldOutMenu = $("header #planet_ol").hide()
+
+    const main = $("main")
+
+    const planetSpace = $("main #planet_space")
+    const chevron1 = planetSpace.children("#chevron1")
+    const planetImage = planetSpace.children("#planet")
+    const chevron2 = planetSpace.children("#chevron2")
+    const planetToolTip = $("main  #planet_space #planet_surface_tooltip")
+
+    const mainPlanetName = $("main article h1")
+    const mainText = $("main article p")
+    const source = $("main article h4 a")
+
+    const viewOptions = main.children("#view_options")
+
+  /*////////////////////////////////////////////////////////
+  //                   linear program flow                //
+  ////////////////////////////////////////////////////////*/
+
+    viewOptions.children().first().addClass("viewSelected")
+    setData();
+
+    $.getJSON("script/data.json", (data)=>{
+      //for all planets
+      planetCount = data.length
+      console.log(planetCount)
+      for (let index = 0; index < planetCount; index++) {
+        //fill header list
+        headerOl.append('<li id="'+ index +'"><h3>'+ data[index].name +'</h3></li>')
+        // fill hamburger menu
+        foldOutMenu.append('<div class="planet_li" id="'+ index +'"><img src="'+ data[index].images.planet + '" class="planet_icon"><h3>'+ data[index].name +'</h3><img class="chevron" src="assets/icon-chevron.svg" alt="chevron"></div>')
+        foldOutMenu.children(".planet_li").last().children(".planet_icon").css( "background-image", 'url("'+ data[index].images.planet + '")')
+      }
+    })
+
+  /*////////////////////////////////////////////////////////
+  //                       event handlers                 //
+  ////////////////////////////////////////////////////////*/
+  
+    menuIcon.on("click",()=>{
+      main.fadeToggle(100)
+      foldOutMenu.finish().slideToggle(300)
+    })
+   
+    foldOutMenu.on("click",".planet_li",function(){
+      planetNum = parseInt($(this).attr("id"))
+      main.fadeToggle(100)
+      foldOutMenu.finish().slideToggle(200)
+      setData()
+    })
+
+    headerOl.on("click","li",function(){
+      planetNum = parseInt($(this).attr("id"))
+      setData()
+    })
+
+    viewOptions.on("click","h3",function(){
+      viewOptions.children("h3").removeClass("viewSelected")
+      $(this).addClass("viewSelected")
+      selectedView = parseInt($(this).attr("id"))
+
+      setData();
+    })
+
+    planetSpace.on("mouseenter",()=>{
+        chevron1.finish().fadeIn()
+        chevron2.finish().fadeIn()
+    }).on("mouseleave",()=>{
+      chevron1.finish().fadeOut()
+      chevron2.finish().fadeOut()
+    })
+
+    chevron1.on("click",()=>{
+      if(planetNum > 0){
+        planetNum--
+        swipePlanets()
+      }
+    })
+    
+    chevron2.on("click",()=>{
+      if(planetNum < planetCount-1){
+        planetNum++
+        swipePlanets()
+      }
+    })
+
+    
+
+  /*////////////////////////////////////////////////////////
+  //                   costum functions                   //
+  ////////////////////////////////////////////////////////*/
+
+    function swipePlanets() {
+
+      console.log(planetNum)
+
+    }
+
+    function setData(){
+      $.getJSON("script/data.json", (data)=>{
+
+        cssRoot.css("--selectedColor", data[planetNum].color)
+
+        foldOutMenu.children(".planet_li").css("border-color", "var(--colorborder)")
+        foldOutMenu.children(".planet_li:nth-child("+ (planetNum + 1) +")").css("border-color", "var(--selectedColor)")
+
+        headerOl.children("li").css("border-color", "transparent")
+        headerOl.children("li:nth-child("+ (planetNum + 1) +")").css("border-color", "var(--selectedColor)")
+
+        mainPlanetName.text(data[planetNum].name)
+        planetToolTip.hide()
+        
+        switch (selectedView) {
+          case 1:{
+            mainText.text(data[planetNum].overview.content)
+            source.attr("href", data[planetNum].overview.source)
+            planetImage.attr("src", data[planetNum].images.planet)
+          }break;
+
+          case 2:{
+            mainText.text(data[planetNum].structure.content)
+            source.attr("href", data[planetNum].structure.source)
+            planetImage.attr("src", data[planetNum].images.internal)
+          }break;
+
+          case 3:{
+            mainText.text(data[planetNum].geology.content)
+            source.attr("href", data[planetNum].geology.source)
+            planetImage.attr("src", data[planetNum].images.planet)
+            planetToolTip.attr("src", data[planetNum].images.geology).show()
+          }break;
+        }
+      })
+    }
+
+
+
+
+
+  })
+  </script>
 </head>
 <body>
 
   <header>
     <h2>the planets</h2>
-    <div id="menu-bar" onclick="">
+    <div id="menu_bar" onclick="">
       <div id="bar1" class="bar"></div>
       <div id="bar2" class="bar"></div>
       <div id="bar3" class="bar"></div>
     </div>
+
     <ol>
-      <li><h3>planet</h3></li>
-      <li><h3>planet</h3></li>
-      <li><h3>planet</h3></li>
-      <li><h3>planet</h3></li>
-      <li><h3>planet</h3></li>
-      <li><h3>planet</h3></li>
-      <li><h3>planet</h3></li>
-      <li><h3>planet</h3></li>
+      <!-- <li><h3>planet</h3></li> -->
     </ol>
+
     <menu id="planet_ol">
-      <div class="planet_li">
+      <!-- <div class="planet_li">
         <div class="planet_icon"></div>
         <h3>planet</h3>
         <img class="chevron" src="assets/icon-chevron.svg" alt="chevron">
-      </div>
-      <div class="planet_li">
-        <div class="planet_icon"></div>
-        <h3>planet</h3>
-        <img class="chevron" src="assets/icon-chevron.svg" alt="chevron">
-      </div>
-      <div class="planet_li">
-        <div class="planet_icon"></div>
-        <h3>planet</h3>
-        <img class="chevron" src="assets/icon-chevron.svg" alt="chevron">
-      </div>
+      </div> -->
     </menu>
     <hr>
     
@@ -64,13 +212,14 @@
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae numquam et commodi, adipisci quae esse iste architecto atque odio quaerat. Voluptatum dolor deleniti a quis eos ea placeat voluptatibus quasi amet et officia, iure asperiores atque? Ullam ipsam laudantium enim?
       </p>
       <h4>
-        Source : <a href="https://en.wikipedia.org/wiki/Rickrolling">Wikipedia</a>
+        Source : <a href="https://en.wikipedia.org/wiki/Rickrolling">Wikipedia</a><img src="assets/icon-source.svg" alt="">
       </h4>
+      
     </article>
     <nav id="view_options">
-      <h3><span>01</span>Overview</h3>
-      <h3><span>02</span>Structure</h3>
-      <h3><span>03</span>surface</h3>
+      <h3 id="1"><span>01</span>Overview</h3>
+      <h3 id="2"><span>02</span>Structure</h3>
+      <h3 id="3"><span>03</span>surface</h3>
     </nav>
 
     

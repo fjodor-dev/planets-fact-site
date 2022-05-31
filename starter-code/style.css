@@ -10,7 +10,7 @@
     --Antonio: 'Antonio', sans-serif;
 
     --colorborder: #3a3a51;
-
+    --selectedColor: rgb(177, 25, 25);
 }
 *{
     padding: 0;
@@ -90,7 +90,7 @@ header{
 header h2{
     margin: 22px 7.5%;
 }
-#menu-bar {
+#menu_bar {
     
     margin: 0 7.5%;
     width: 28px;
@@ -105,77 +105,63 @@ header h2{
     width: 100%;
     background-color: var(--colorWhite); 
 }
-
 header ol{
-    
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    width: 100%;
     display: none;
 }
-header ol li{
-    border: solid;
-    border-color: #ff000000;
-    border-width: 0 0 4px 0;
-    padding: 1em 0 1.5em 0;
-}
-header ol li:hover{
-    background-color: var(--colorButtonHover); 
-}
 
-header ol li h3{
-    /* margin: 1em; */
-    font-size: 1.1em;
-    font-weight: 600;
-}
+
 
 
 /* ___planet_list_________________________ */
 #planet_ol{
     background: linear-gradient( rgba(7,7,36,1) 50%, rgb(17, 15, 57) 70%, rgb(24, 12, 75) 100%);
-    height: calc(100vh - 100px);
-    z-index: 10;
+    height: calc(100vh - 98px);
     width: 100vw;
-    max-width: 800px;
     border-top:2px solid var(--colorborder);
-    display: none;
-    /* display: block; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     padding: 0 7.5%;
+    
+    /* max-height: 0; */
+    
 }
 .planet_li:first-child{
-    margin-top: 3.2em;
+    /* margin-top: 3.2em; */
 }
 .planet_li:last-child{
     border-bottom: none;
 }
 .planet_li{
-    padding: 8% 0;
-
+    max-width: 800px;
+    height: 10%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     border-bottom: 2px solid var(--colorborder);
 }
 #planet_ol .planet_li:hover{
     background-color: var(--colorButtonHover);
 }
 .planet_li h3{
+    margin-left: 12%;
     font-size: 1.8em;
     font-weight: 600;
 }
 .planet_icon{
-    border-radius: 50%;
+    /* border-radius: 50%; */
     width: 8%;
-    margin-right: -35%;
-    max-width: 50px;
-    aspect-ratio: 1/1;
-    background-color: rgb(224, 93, 11);
+    max-width: 40px;
+    /* aspect-ratio: 1/1; */
+    position: absolute;
+    /* background-color: rgb(224, 93, 11); */
+    /* background-image: url(assets/planet-mercury.svg); */
+    /* background-position: center;
+    background-size: cover; */
 }
 .chevron{
     width: 10px;
+
 }
 
 
@@ -194,7 +180,6 @@ main{
 }
 
 
-
 /* ___view_options_______________________ */
 #view_options{
     width: 100%;
@@ -209,16 +194,22 @@ main{
 #view_options h3{
     font-size: 1em;
     padding: 1.4em 4px calc(1.4em - 4px) 4px;
-    border-bottom: #ffffff00 solid 4px;
+    border: solid;
+    border-color: rgba(198, 30, 30, 0);
+    border-width: 0 0 4px 0;
     cursor: pointer;
+
 }
-#view_options h3:hover{
-    background-color: var(--colorButtonHover);
-}
+
 #view_options span{
     display: none;
     color: var(--colorGrey);
 }
+#view_options .viewSelected{
+    
+    border-color: var(--selectedColor);
+}
+
 
 
 /* ___planet_____________________________ */
@@ -276,9 +267,13 @@ article h4{
 }
 article a{
     color: var(--colorGrey);
-    /* font-family: var(--Spartan); */
     font-weight: 700;
 }
+article img{
+    margin-left: 5px;
+    margin-bottom: -1px;
+}
+
 
 
 /* ___facts______________________________ */
@@ -309,9 +304,9 @@ article a{
 
 
 /*////////////////////////////////////////////////////////
-//                 Media Query > 600px                  //
+//                 Media Query > 620px                  //
 ////////////////////////////////////////////////////////*/
-@media only screen and (min-width: 600px){
+@media only screen and (min-width: 620px){
 
     body *{
         text-align: left;
@@ -321,12 +316,33 @@ article a{
     header h2{
         margin-inline: auto;
     }
-    #menu-bar {
+    #menu_bar {
         display: none;
     }
     header ol{
+        list-style: none;
         display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        width: 100%;
     }
+    header ol li{
+        padding-inline: 2px;
+        z-index: 1;
+        margin-bottom: -2px;
+        border-bottom: solid 5px;
+    }
+    
+    header ol li:hover{
+        background-color: var(--colorButtonHover); 
+    }
+    
+    header ol li h3{
+        /* margin: 1em; */
+        font-size: 1.1em;
+        font-weight: 600;
+    }
+
 
     /* ___planet_list_________________________ */
     #planet_ol{
@@ -362,6 +378,7 @@ article a{
         margin: 0;
         /* background-color: rgba(8, 0, 255, 0.208); */
     }
+    
     #view_options h3{
         
         font-size: 1em;
@@ -370,11 +387,25 @@ article a{
         border: solid 2px var(--colorborder);
         cursor: pointer;
     }
+    #view_options h3:hover{
+        background-color: var(--colorButtonHover);
+    }
+
+    #view_options .viewSelected{
+        background-color: var(--selectedColor);
+    }
+    #view_options .viewSelected span{
+        color: var(--colorWhite);
+    }
+    #view_options .viewSelected:hover{
+        background-color: var(--selectedColor);
+    }
     #view_options span{
         display: initial;
         margin-right: 10%;
     }
-
+    
+   
     /* ___article____________________________ */
     article{
         width: 50%;
@@ -385,6 +416,7 @@ article a{
 
     /* ___facts______________________________ */
     .facts div{
+
         justify-content: center;
         padding: min(20px, 2%) 0;
         
@@ -419,36 +451,40 @@ article a{
         }
         header ol li{
             margin-inline: 10px;
-            /* background-color: #838391; */
-            padding: 32.5px 0;
-            border-width: 5px 0 0 0;
-            
+            padding:32.5px 5px;
+            margin-bottom: 0;
+            border-bottom: 0;
+            border-top: solid 6px;
+        
         }
         /* ___main_______________________________ */
         main{
-
             display: flow-root;
-            
-            
         }
 
         /* ___planet_____________________________ */
         #planet_space{
-            max-width: min(70%, 756px);
+            width: 65%;
+            max-width: initial;
+            /* max-width: initial; */
+            /* height: 40vh; */
+            /* margin-left: 7.5%; */
             float: left;
+            
         }
 
         /* ___view_options_______________________ */
         #view_options{
-            width: 30%;
+            width: 35%;
             float: right;
+            margin-bottom: 60px;
         }
 
         /* ___article____________________________ */
         article{
-            width: 30%;
+            width: 35%;
             float: right;
-            margin-top: 10%;
+            margin-top: 60px;
         }
         article h1{
             font-size: 80px;
