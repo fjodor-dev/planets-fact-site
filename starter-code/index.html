@@ -17,7 +17,8 @@
   //              global variables declaretion            //
   ////////////////////////////////////////////////////////*/
 
-    let planetNum = 2
+  
+    let planetNum = 5
     let selectedView = 1
     let planetCount = 0
     
@@ -48,6 +49,9 @@
   /*////////////////////////////////////////////////////////
   //                   linear program flow                //
   ////////////////////////////////////////////////////////*/
+
+    chevron1.animate({opacity: '0.0'});
+    chevron2.animate({opacity: '0.0'});
 
     viewOptions.children().first().addClass("viewSelected")
     setData();
@@ -95,7 +99,6 @@
     })
 
     planetSpace.on("mousemove",()=>{
-
       if(planetNum > 0){
         chevron1.finish().animate({opacity: '0.7'},600);
       }else{
@@ -106,28 +109,27 @@
       }else{
         chevron2.animate({opacity: '0.0'},300);
       }
-        
     }).on("mouseleave",()=>{
       chevron1.finish().animate({opacity: '0'},300);
       chevron2.finish().animate({opacity: '0'},300);
     })
 
     chevron1.on("click",()=>{
-      if(planetNum > 0){
+      console.log("click1")
+      if(planetNum > 0 ){
         planetNum--
         swipePlanet(false)
         return
       }
-      
     })
     
     chevron2.on("click",()=>{
+      console.log("click2")
       if(planetNum < planetCount-1){
         planetNum++
         swipePlanet(true)
         return
       }
-      
     })
 
     
@@ -138,7 +140,11 @@
 
     function swipePlanet(plus) {
 
+      
+      $(".swipingPlanet").remove()
+
       planetImageClone = planetImage.clone()
+      
       
       planetImage.css("opacity", "0")
 
@@ -146,7 +152,7 @@
         "position": "absolute",
         "width": planetImage.css("width"),
         "max-width": planetImage.css("max-width"),
-      })
+      }).addClass("swipingPlanet")
 
       setData()
       planetSpace.append(planetImageClone)
@@ -178,6 +184,7 @@
           .animate({left: planetImage.offset().left},300,()=>{
             planetImageClone.remove()
             planetImage.css("opacity", "1")
+            $(".swipingPlanet").remove()
           })
         })
       }
@@ -204,6 +211,7 @@
         headerOl.children("li:nth-child("+ (planetNum + 1) +")").css("border-color", "var(--selectedColor)")
 
         mainPlanetName.text(data[planetNum].name)
+        planetImage.width("50%")
         planetToolTip.hide()
         
         switch (selectedView) {
@@ -226,8 +234,6 @@
             planetToolTip.attr("src", data[planetNum].images.geology).show()
           }break;
         }
-
-        console.log(planetImage.attr("src"))
       })
     }
 

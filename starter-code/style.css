@@ -229,7 +229,7 @@ justify-content: space-around;
 }
 #planet_space #chevron2, #planet_space #chevron1{
     height: 12%;
-    opacity: 0.0;
+   
     max-height: 100px;
     /* aspect-ratio: 1/2.4; */
     width: 20px;
@@ -241,7 +241,7 @@ justify-content: space-around;
 }
 
 #planet{
-    width: 60%;
+    /* width: 60%; */
     z-index: -3;
 }
 #planet_surface_tooltip{
@@ -252,6 +252,9 @@ justify-content: space-around;
     position: absolute;
     margin-bottom: min(8%, 80px);
     display: none;
+}
+.swipingPlanet{
+
 }
 
 
