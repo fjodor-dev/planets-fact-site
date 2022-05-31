@@ -18,9 +18,11 @@
   ////////////////////////////////////////////////////////*/
 
   
-    let planetNum = 5
+    let planetNum = 4
     let selectedView = 1
     let planetCount = 0
+
+    const biggestBodyKM = 69911 //jupiter, needed for scaling planets
     
     const cssRoot = $(":root")
 
@@ -59,7 +61,6 @@
     $.getJSON("script/data.json", (data)=>{
       //for all planets
       planetCount = data.length
-      console.log(planetCount)
       for (let index = 0; index < planetCount; index++) {
         //fill header list
         headerOl.append('<li id="'+ index +'"><h3>'+ data[index].name +'</h3></li>')
@@ -148,41 +149,44 @@
       
       planetImage.css("opacity", "0")
 
+      // console.log(planetImage.css())
+
       planetImageClone.css({
         "position": "absolute",
-        "width": planetImage.css("width"),
-        "max-width": planetImage.css("max-width"),
+        "width": planetImage.width() + "px",
+        "height": planetImage.height() + "px",
       }).addClass("swipingPlanet")
 
       setData()
+
       planetSpace.append(planetImageClone)
 
 
       if(plus){
         planetImageClone.animate({left: (0-planetImageClone.width())},300,()=>{
+          console.log(planetImage.width())
           planetImageClone
           .css({
-            "width": planetImage.css("width"),
-            "max-width": planetImage.css("max-width"),
-            "left":"100%"
+            "height": planetImage.height() + "px",
+            "width": planetImage.width() + "px",
+            "left": 100 + "%"
           })
           .attr("src", "" + planetImage.attr("src"))
           .animate({left: planetImage.offset().left},300,()=>{
-            planetImageClone.remove()
             planetImage.css("opacity", "1")
+            $(".swipingPlanet").remove()
           })
         })
       }else{
         planetImageClone.animate({left: "100%"},300,()=>{
           planetImageClone
           .css({
-            "width": planetImage.css("width"),
-            "max-width": planetImage.css("max-width"),
-            "left":"" + (0-planetImageClone.width()) + "px"
+            "height": planetImage.height() + "px",
+            "width": planetImage.width() + "px",
+            "left": (0-planetImage.width()) + "px"
           })
           .attr("src", "" + planetImage.attr("src"))
           .animate({left: planetImage.offset().left},300,()=>{
-            planetImageClone.remove()
             planetImage.css("opacity", "1")
             $(".swipingPlanet").remove()
           })
@@ -211,7 +215,7 @@
         headerOl.children("li:nth-child("+ (planetNum + 1) +")").css("border-color", "var(--selectedColor)")
 
         mainPlanetName.text(data[planetNum].name)
-        planetImage.width("50%")
+
         planetToolTip.hide()
         
         switch (selectedView) {
@@ -234,6 +238,19 @@
             planetToolTip.attr("src", data[planetNum].images.geology).show()
           }break;
         }
+
+        if (true) {
+          const procent = 90 * (data[planetNum].radius/biggestBodyKM)
+          console.log(procent)
+          planetImage.height(procent + "%")
+          planetImage.width(procent + "%")
+
+          if(planetNum == 5){//jupiter sizing
+            planetImage.height(planetImage.height()+((planetImage.height()/100)*100))
+            planetImage.width(planetImage.height())
+          }
+        }
+        
       })
     }
 

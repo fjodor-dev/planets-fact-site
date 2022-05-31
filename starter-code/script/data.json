@@ -15,7 +15,7 @@
     },
     "rotation": "58.6 Days",
     "revolution": "87.97 Days",
-    "radius": "2,439.7 KM",
+    "radius": "2440",
     "temperature": "430°c",
     "images": {
       "planet": "./assets/planet-mercury.svg",
@@ -40,7 +40,7 @@
     },
     "rotation": "243 Days",
     "revolution": "224.7 Days",
-    "radius": "6,051.8 KM",
+    "radius": "6052",
     "temperature": "471°c",
     "images": {
       "planet": "./assets/planet-venus.svg",
@@ -65,7 +65,7 @@
     },
     "rotation": "0.99 Days",
     "revolution": "365.26 Days",
-    "radius": "6,371 KM",
+    "radius": "6371",
     "temperature": "16°c",
     "images": {
       "planet": "./assets/planet-earth.svg",
@@ -90,7 +90,7 @@
     },
     "rotation": "1.03 Days",
     "revolution": "1.88 Years",
-    "radius": "3,389.5 KM",
+    "radius": "3390",
     "temperature": "-28°c",
     "images": {
       "planet": "./assets/planet-mars.svg",
@@ -115,7 +115,7 @@
     },
     "rotation": "9.93 Hours",
     "revolution": "11.86 Years",
-    "radius": "69,911 KM",
+    "radius": "69911",
     "temperature": "-108°c",
     "images": {
       "planet": "./assets/planet-jupiter.svg",
@@ -140,7 +140,7 @@
     },
     "rotation": "10.8 Hours",
     "revolution": "29.46 Years",
-    "radius": "58,232 KM",
+    "radius": "58232",
     "temperature": "-138°c",
     "images": {
       "planet": "./assets/planet-saturn.svg",
@@ -165,7 +165,7 @@
     },
     "rotation": "17.2 Hours",
     "revolution": "84 Years",
-    "radius": "25,362 KM",
+    "radius": "25362",
     "temperature": "-195°c",
     "images": {
       "planet": "./assets/planet-uranus.svg",
@@ -190,7 +190,7 @@
     },
     "rotation": "16.08 Hours",
     "revolution": "164.79 Years",
-    "radius": "24,622 KM",
+    "radius": "24622",
     "temperature": "-201°c",
     "images": {
       "planet": "./assets/planet-neptune.svg",
