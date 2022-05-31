@@ -87,8 +87,16 @@
     })
 
     headerOl.on("click","li",function(){
+      let prePlanet = planetNum
       planetNum = parseInt($(this).attr("id"))
-      setData()
+      if(prePlanet < planetNum){
+        swipePlanet(true)
+      }
+      else if(prePlanet > planetNum){
+        swipePlanet(false)
+      }else{
+        setData()
+      }
     })
 
     viewOptions.on("click","h3",function(){
@@ -113,10 +121,13 @@
     }).on("mouseleave",()=>{
       chevron1.finish().animate({opacity: '0'},300);
       chevron2.finish().animate({opacity: '0'},300);
+    }).on("swiperight", ()=>{
+      console.log("swipeR")
+    }).on("swipeleft", ()=>{
+      console.log("swipeL")
     })
 
     chevron1.on("click",()=>{
-      console.log("click1")
       if(planetNum > 0 ){
         planetNum--
         swipePlanet(false)
@@ -125,7 +136,6 @@
     })
     
     chevron2.on("click",()=>{
-      console.log("click2")
       if(planetNum < planetCount-1){
         planetNum++
         swipePlanet(true)
@@ -164,7 +174,7 @@
 
       if(plus){
         planetImageClone.animate({left: (0-planetImageClone.width())},300,()=>{
-          console.log(planetImage.width())
+          // setData() 
           planetImageClone
           .css({
             "height": planetImage.height() + "px",
@@ -179,6 +189,7 @@
         })
       }else{
         planetImageClone.animate({left: "100%"},300,()=>{
+          // setData()
           planetImageClone
           .css({
             "height": planetImage.height() + "px",
@@ -193,14 +204,6 @@
         })
       }
       
-    }
-
-
-    function swipePreviousPlanet() {
-
-
-      // console.log(planetNum)
-      // setData()
     }
 
     function setData(){
@@ -239,18 +242,17 @@
           }break;
         }
 
-        if (true) {
+        if (true) {//make later widt setting
           const procent = 90 * (data[planetNum].radius/biggestBodyKM)
-          console.log(procent)
           planetImage.height(procent + "%")
           planetImage.width(procent + "%")
 
-          if(planetNum == 5){//jupiter sizing
-            planetImage.height(planetImage.height()+((planetImage.height()/100)*100))
+          if(planetNum == 5){//saturn sizing
+            planetImage.height((planetImage.height()/100)*137,72455)
             planetImage.width(planetImage.height())
           }
         }
-        
+
       })
     }
 

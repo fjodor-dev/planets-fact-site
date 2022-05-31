@@ -221,7 +221,7 @@ margin: auto;
 
 display: flex;
 align-items: center;
-justify-content: space-around;
+justify-content: space-between;
 }
 
 #planet_space #chevron1{
