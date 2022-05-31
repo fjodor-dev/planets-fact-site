@@ -94,26 +94,40 @@
       setData();
     })
 
-    planetSpace.on("mouseenter",()=>{
-        chevron1.finish().fadeIn()
-        chevron2.finish().fadeIn()
+    planetSpace.on("mousemove",()=>{
+
+      if(planetNum > 0){
+        chevron1.finish().animate({opacity: '0.7'},600);
+      }else{
+        chevron1.animate({opacity: '0.0'},600);
+      }
+      if(planetNum < planetCount-1){
+        chevron2.finish().animate({opacity: '0.7'},300);
+      }else{
+        chevron2.animate({opacity: '0.0'},300);
+      }
+        
     }).on("mouseleave",()=>{
-      chevron1.finish().fadeOut()
-      chevron2.finish().fadeOut()
+      chevron1.finish().animate({opacity: '0'},300);
+      chevron2.finish().animate({opacity: '0'},300);
     })
 
     chevron1.on("click",()=>{
       if(planetNum > 0){
         planetNum--
-        swipePlanets()
+        swipePlanet(false)
+        return
       }
+      
     })
     
     chevron2.on("click",()=>{
       if(planetNum < planetCount-1){
         planetNum++
-        swipePlanets()
+        swipePlanet(true)
+        return
       }
+      
     })
 
     
@@ -122,10 +136,60 @@
   //                   costum functions                   //
   ////////////////////////////////////////////////////////*/
 
-    function swipePlanets() {
+    function swipePlanet(plus) {
 
-      console.log(planetNum)
+      planetImageClone = planetImage.clone()
+      
+      planetImage.css("opacity", "0")
 
+      planetImageClone.css({
+        "position": "absolute",
+        "width": planetImage.css("width"),
+        "max-width": planetImage.css("max-width"),
+      })
+
+      setData()
+      planetSpace.append(planetImageClone)
+
+
+      if(plus){
+        planetImageClone.animate({left: (0-planetImageClone.width())},300,()=>{
+          planetImageClone
+          .css({
+            "width": planetImage.css("width"),
+            "max-width": planetImage.css("max-width"),
+            "left":"100%"
+          })
+          .attr("src", "" + planetImage.attr("src"))
+          .animate({left: planetImage.offset().left},300,()=>{
+            planetImageClone.remove()
+            planetImage.css("opacity", "1")
+          })
+        })
+      }else{
+        planetImageClone.animate({left: "100%"},300,()=>{
+          planetImageClone
+          .css({
+            "width": planetImage.css("width"),
+            "max-width": planetImage.css("max-width"),
+            "left":"" + (0-planetImageClone.width()) + "px"
+          })
+          .attr("src", "" + planetImage.attr("src"))
+          .animate({left: planetImage.offset().left},300,()=>{
+            planetImageClone.remove()
+            planetImage.css("opacity", "1")
+          })
+        })
+      }
+      
+    }
+
+
+    function swipePreviousPlanet() {
+
+
+      // console.log(planetNum)
+      // setData()
     }
 
     function setData(){
@@ -162,6 +226,8 @@
             planetToolTip.attr("src", data[planetNum].images.geology).show()
           }break;
         }
+
+        console.log(planetImage.attr("src"))
       })
     }
 

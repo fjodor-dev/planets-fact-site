@@ -218,32 +218,39 @@ width: 100%;
 aspect-ratio: 1/1;
 max-width: 540px;
 margin: auto;
+
 display: flex;
 align-items: center;
-justify-content: space-evenly;
+justify-content: space-around;
 }
 
 #planet_space #chevron1{
     transform: scaleX(-1);
 }
 #planet_space #chevron2, #planet_space #chevron1{
-    height: 18%;
-    opacity: 0.6;
-    max-height: 40px;
-    aspect-ratio: 1/2.4;
-    display: none;
+    height: 12%;
+    opacity: 0.0;
+    max-height: 100px;
+    /* aspect-ratio: 1/2.4; */
+    width: 20px;
     cursor: pointer;
+
 }
+#planet_space #chevron2:hover, #planet_space #chevron1:hover{
+    height: 10%;
+}
+
 #planet{
-    width: 40%;
+    width: 60%;
+    z-index: -3;
 }
 #planet_surface_tooltip{
-    width: 20vw;
+    width: 16vw;
     max-width: 150px;
     align-self: flex-end;
     
     position: absolute;
-    margin-bottom: min(8%, 50px);
+    margin-bottom: min(8%, 80px);
     display: none;
 }
 
@@ -330,11 +337,14 @@ article img{
         padding-inline: 2px;
         z-index: 1;
         margin-bottom: -2px;
+        border-color: #d2181800;
         border-bottom: solid 5px;
+        
     }
     
     header ol li:hover{
         background-color: var(--colorButtonHover); 
+        
     }
     
     header ol li h3{
@@ -369,7 +379,6 @@ article img{
     /* ___view_options_______________________ */
     #view_options{
         width: 45%;
-        
         color: var(--colorWhite);
         order: 0;
         flex-direction: column;
@@ -380,7 +389,6 @@ article img{
     }
     
     #view_options h3{
-        
         font-size: 1em;
         padding: 0.7em 1.4em;
         margin: 0.6em 0;
@@ -412,6 +420,7 @@ article img{
     }
     article p{
         padding: 0;
+        font-size: 1.3em;
     }
 
     /* ___facts______________________________ */
