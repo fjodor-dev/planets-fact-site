@@ -112,34 +112,104 @@ header ol{
 
 
 
+
+/* ___switch_________________________ */
+ .switch_holder{
+     display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 47%;
+    min-height: 3.2em;
+    border: solid 2px var(--colorborder);
+    cursor: pointer;
+    text-align: left;
+ }
+ .switch_holder:hover{
+    background-color: var(--colorButtonHover);
+ }
+
+.switch{ 
+    width: 50px;
+    height: 28px;
+    background-color: var(--colorGrey);
+    /* opacity: 0.5; */
+    border-radius: 17px;
+    padding: 2px;
+    
+}
+.switch .slider {
+    
+    height: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background-color: var(--colorWhite);
+    float: left;
+    
+}
+.switch_holder h3{
+    line-height: normal;
+    width: min-content;
+    color: var(--colorGrey);
+}
+.selected_switch{
+    background-color: var(--selectedColor);
+    border-color: var(--selectedColor);
+}
+.selected_switch:hover{
+    background-color: var(--selectedColor);
+}
+.selected_switch h3{
+    color: var(--colorWhite);
+}
+
+
+
+
+
+
+
+
+
+  
+
+
 /* ___planet_list_________________________ */
+
 #planet_ol{
     background: linear-gradient( rgba(7,7,36,1) 50%, rgb(17, 15, 57) 70%, rgb(24, 12, 75) 100%);
     height: calc(100vh - 98px);
     width: 100vw;
     border-top:2px solid var(--colorborder);
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-wrap: wrap;
+    /* flex-direction: column; */
+    justify-content: space-between;
     padding: 0 7.5%;
-    
+    /* align-items: center; */
     /* max-height: 0; */
+
     
 }
+
 .planet_li:first-child{
     /* margin-top: 3.2em; */
 }
 .planet_li:last-child{
-    border-bottom: none;
+    /* border-bottom: none; */
+
 }
-.planet_li{
+
+#planet_ol .planet_li{
     max-width: 800px;
-    height: 10%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 2px solid var(--colorborder);
+    cursor: pointer;
 }
+
+
 #planet_ol .planet_li:hover{
     background-color: var(--colorButtonHover);
 }
@@ -147,6 +217,7 @@ header ol{
     margin-left: 12%;
     font-size: 1.8em;
     font-weight: 600;
+    color: var(--colorWhite);
 }
 .planet_icon{
     /* border-radius: 50%; */
@@ -161,8 +232,18 @@ header ol{
 }
 .chevron{
     width: 10px;
-
 }
+
+#planet_ol .switch_holder{
+   
+    margin-top: 10%;
+
+    min-height: 50px;
+    height: 10%;
+    max-height: 100px;
+    
+}
+
 
 
 
@@ -174,7 +255,7 @@ main{
     margin: auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     text-align: center;
     /* display: none; */
 }
@@ -189,16 +270,21 @@ main{
     justify-content: space-between;
     margin: auto;
     order: -2;
+    border-bottom: solid 2px var(--colorborder);
     
 }
-#view_options h3{
+#view_options .view_setting{
     font-size: 1em;
-    padding: 1.4em 4px calc(1.4em - 4px) 4px;
+    padding: 1.4em 4px calc(1.4em - 5px) 4px;
     border: solid;
     border-color: rgba(198, 30, 30, 0);
-    border-width: 0 0 4px 0;
+    border-width: 0 0 5px 0;
     cursor: pointer;
+    margin-bottom: -2px;
 
+}
+#view_options .switch_holder{
+    display: none;
 }
 
 #view_options span{
@@ -221,12 +307,9 @@ margin: auto;
 
 display: flex;
 align-items: center;
-justify-content: space-between;
+justify-content: space-around;
 }
 
-#planet_space #chevron1{
-    transform: scaleX(-1);
-}
 #planet_space #chevron2, #planet_space #chevron1{
     height: 12%;
    
@@ -234,24 +317,34 @@ justify-content: space-between;
     /* aspect-ratio: 1/2.4; */
     width: 20px;
     cursor: pointer;
+    position: absolute;
+    
 
 }
 #planet_space #chevron2:hover, #planet_space #chevron1:hover{
-    height: 10%;
+    height: 8%;
+}
+
+#planet_space #chevron1{
+    transform: scaleX(-1);
+    margin-right: min(80%, 600px);
+}
+#planet_space #chevron2{
+    margin-left: min(80%, 600px);
 }
 
 #planet{
-    /* width: 60%; */
-    z-index: -3;
+    /* width: 60px; */
+    z-index: -2;
 }
 #planet_surface_tooltip{
     width: 16vw;
     max-width: 150px;
-    align-self: flex-end;
+    
     
     position: absolute;
-    margin-bottom: min(8%, 80px);
     display: none;
+    /* opacity: 0; */
 }
 .swipingPlanet{
 
@@ -260,7 +353,7 @@ justify-content: space-between;
 
 /* ___article____________________________ */
 article{
-    
+    height: 266px;
 }
 article h1{
     margin: 0 0 20px 0;
@@ -342,7 +435,7 @@ article img{
         margin-bottom: -2px;
         border-color: #d2181800;
         border-bottom: solid 5px;
-        
+        cursor: pointer;
     }
     
     header ol li:hover{
@@ -384,46 +477,69 @@ article img{
         width: 45%;
         color: var(--colorWhite);
         order: 0;
-        flex-direction: column;
-        flex-wrap: nowrap;
+        /* flex-direction: column; */
         justify-content: space-between;
+        flex-wrap: wrap;
+        height: 240px;
         margin: 0;
+        border: none;
+        /* margin-top: 86px; */
         /* background-color: rgba(8, 0, 255, 0.208); */
     }
+
+    #view_options .switch_holder{
+        display: flex;
+    }
     
-    #view_options h3{
+    #view_options .view_setting{
         font-size: 1em;
-        padding: 0.7em 1.4em;
-        margin: 0.6em 0;
+        padding:  0 1.4em;
+        margin: 0;
+        height: 3.2em;
         border: solid 2px var(--colorborder);
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        width: 100%;
     }
-    #view_options h3:hover{
+    #view_options .view_setting:hover{
         background-color: var(--colorButtonHover);
     }
-
     #view_options .viewSelected{
+        background-color: var(--selectedColor);
+        border-color: var(--selectedColor);
+    }
+    #view_options .viewSelected:hover{
         background-color: var(--selectedColor);
     }
     #view_options .viewSelected span{
         color: var(--colorWhite);
     }
-    #view_options .viewSelected:hover{
-        background-color: var(--selectedColor);
-    }
-    #view_options span{
+    #view_options .view_setting span {
         display: initial;
         margin-right: 10%;
     }
+
+
+    
+    #view_options .switch_holder{
+        padding:  0;
+        /* background-color: var(--selectedColor); */
+        width: 47%;
+    }
+    
+
     
    
     /* ___article____________________________ */
     article{
         width: 50%;
+        height: 366px;
     }
     article p{
         padding: 0;
         font-size: 1.3em;
+        
     }
 
     /* ___facts______________________________ */
@@ -497,6 +613,7 @@ article img{
             width: 35%;
             float: right;
             margin-top: 60px;
+            height: 354px;
         }
         article h1{
             font-size: 80px;

@@ -18,9 +18,11 @@
   ////////////////////////////////////////////////////////*/
 
   
-    let planetNum = 4
+    let planetNum = 2
     let selectedView = 1
     let planetCount = 0
+    let selectedColor
+    let scalePlanets = true
 
     const biggestBodyKM = 69911 //jupiter, needed for scaling planets
     
@@ -38,7 +40,7 @@
 
     const planetSpace = $("main #planet_space")
     const chevron1 = planetSpace.children("#chevron1")
-    const planetImage = planetSpace.children("#planet")
+    const planet = planetSpace.children("#planet")
     const chevron2 = planetSpace.children("#chevron2")
     const planetToolTip = $("main  #planet_space #planet_surface_tooltip")
 
@@ -52,20 +54,21 @@
   //                   linear program flow                //
   ////////////////////////////////////////////////////////*/
 
-    chevron1.animate({opacity: '0.0'});
-    chevron2.animate({opacity: '0.0'});
+    chevron1.finish().fadeOut(1200);
+    chevron2.finish().fadeOut(1200);
 
     viewOptions.children().first().addClass("viewSelected")
     setData();
 
     $.getJSON("script/data.json", (data)=>{
-      //for all planets
+
       planetCount = data.length
-      for (let index = 0; index < planetCount; index++) {
+      //forr all planets
+      for (let index = (planetCount-1); index >= 0; index--) {
         //fill header list
-        headerOl.append('<li id="'+ index +'"><h3>'+ data[index].name +'</h3></li>')
+        headerOl.prepend('<li id="'+ index +'"><h3>'+ data[index].name +'</h3></li>')
         // fill hamburger menu
-        foldOutMenu.append('<div class="planet_li" id="'+ index +'"><img src="'+ data[index].images.planet + '" class="planet_icon"><h3>'+ data[index].name +'</h3><img class="chevron" src="assets/icon-chevron.svg" alt="chevron"></div>')
+        foldOutMenu.prepend('<div class="planet_li" id="'+ index +'"><img src="'+ data[index].images.planet + '" class="planet_icon"><h3>'+ data[index].name +'</h3><img class="chevron" src="assets/icon-chevron.svg" alt="chevron"></div>')
         foldOutMenu.children(".planet_li").last().children(".planet_icon").css( "background-image", 'url("'+ data[index].images.planet + '")')
       }
     })
@@ -88,6 +91,7 @@
 
     headerOl.on("click","li",function(){
       let prePlanet = planetNum
+      // planet.css("background-color", "red")
       planetNum = parseInt($(this).attr("id"))
       if(prePlanet < planetNum){
         swipePlanet(true)
@@ -99,8 +103,9 @@
       }
     })
 
-    viewOptions.on("click","h3",function(){
-      viewOptions.children("h3").removeClass("viewSelected")
+    viewOptions.on("click",".view_setting",function(){
+      console.log("click: " + parseInt($(this).attr("id")))
+      viewOptions.children(".view_setting").removeClass("viewSelected")
       $(this).addClass("viewSelected")
       selectedView = parseInt($(this).attr("id"))
 
@@ -109,18 +114,18 @@
 
     planetSpace.on("mousemove",()=>{
       if(planetNum > 0){
-        chevron1.finish().animate({opacity: '0.7'},600);
+        chevron1.finish().fadeIn(600);
       }else{
-        chevron1.animate({opacity: '0.0'},600);
+        chevron1.finish().fadeOut(300);
       }
       if(planetNum < planetCount-1){
-        chevron2.finish().animate({opacity: '0.7'},300);
+        chevron2.finish().fadeIn(600);
       }else{
-        chevron2.animate({opacity: '0.0'},300);
+        chevron2.finish().fadeOut(300);
       }
     }).on("mouseleave",()=>{
-      chevron1.finish().animate({opacity: '0'},300);
-      chevron2.finish().animate({opacity: '0'},300);
+      chevron1.finish().fadeOut(300);
+      chevron2.finish().fadeOut(300);
     }).on("swiperight", ()=>{
       console.log("swipeR")
     }).on("swipeleft", ()=>{
@@ -154,17 +159,18 @@
       
       $(".swipingPlanet").remove()
 
-      planetImageClone = planetImage.clone()
+      planetImageClone = planet.clone()
+     
       
+      planet.css("opacity", "0")
       
-      planetImage.css("opacity", "0")
 
       // console.log(planetImage.css())
 
       planetImageClone.css({
         "position": "absolute",
-        "width": planetImage.width() + "px",
-        "height": planetImage.height() + "px",
+        "width": planet.width() + "px",
+        "height": planet.height() + "px",
       }).addClass("swipingPlanet")
 
       setData()
@@ -177,14 +183,15 @@
           // setData() 
           planetImageClone
           .css({
-            "height": planetImage.height() + "px",
-            "width": planetImage.width() + "px",
+            "height": planet.height() + "px",
+            "width": planet.width() + "px",
             "left": 100 + "%"
           })
-          .attr("src", "" + planetImage.attr("src"))
-          .animate({left: planetImage.offset().left},300,()=>{
-            planetImage.css("opacity", "1")
+          .attr("src", "" + planet.attr("src"))
+          .animate({left: planet.offset().left},300,()=>{
+            planet.css("opacity", "1")
             $(".swipingPlanet").remove()
+            
           })
         })
       }else{
@@ -192,14 +199,15 @@
           // setData()
           planetImageClone
           .css({
-            "height": planetImage.height() + "px",
-            "width": planetImage.width() + "px",
-            "left": (0-planetImage.width()) + "px"
+            "height": planet.height() + "px",
+            "width": planet.width() + "px",
+            "left": (0-planet.width()) + "px"
           })
-          .attr("src", "" + planetImage.attr("src"))
-          .animate({left: planetImage.offset().left},300,()=>{
-            planetImage.css("opacity", "1")
+          .attr("src", "" + planet.attr("src"))
+          .animate({left: planet.offset().left},300,()=>{
+            planet.css("opacity", "1")
             $(".swipingPlanet").remove()
+            
           })
         })
       }
@@ -209,7 +217,9 @@
     function setData(){
       $.getJSON("script/data.json", (data)=>{
 
-        cssRoot.css("--selectedColor", data[planetNum].color)
+        selectedColor = data[planetNum].color
+        
+        cssRoot.css("--selectedColor", selectedColor)
 
         foldOutMenu.children(".planet_li").css("border-color", "var(--colorborder)")
         foldOutMenu.children(".planet_li:nth-child("+ (planetNum + 1) +")").css("border-color", "var(--selectedColor)")
@@ -219,40 +229,51 @@
 
         mainPlanetName.text(data[planetNum].name)
 
-        planetToolTip.hide()
+        planetToolTip.css("display","none").attr("src", data[planetNum].images.geology)
+
+        if (scalePlanets) {
+          const procent = 90 * (data[planetNum].radius/biggestBodyKM)
+          planet.height(procent + "%")
+          planet.width(procent + "%")
+
+          if(planetNum == 5){//saturn sizing
+            planet.height((planet.height()/100)*137,72455)
+            planet.width(planet.height())
+          }
+        }
         
         switch (selectedView) {
           case 1:{
             mainText.text(data[planetNum].overview.content)
             source.attr("href", data[planetNum].overview.source)
-            planetImage.attr("src", data[planetNum].images.planet)
+            planet.attr("src", data[planetNum].images.planet)
           }break;
 
           case 2:{
             mainText.text(data[planetNum].structure.content)
             source.attr("href", data[planetNum].structure.source)
-            planetImage.attr("src", data[planetNum].images.internal)
+            planet.attr("src", data[planetNum].images.internal)
           }break;
 
           case 3:{
             mainText.text(data[planetNum].geology.content)
             source.attr("href", data[planetNum].geology.source)
-            planetImage.attr("src", data[planetNum].images.planet)
-            planetToolTip.attr("src", data[planetNum].images.geology).show()
+            planet.attr("src", data[planetNum].images.planet)
+            
+            if(planetToolTip.css('display') == 'none'){
+              planetToolTip.css("display","block").animate({"top": planet.position().top + ((planet.height()/100)*75)},300)
+            }else{
+              planetToolTip.css({"top": planet.position().top + ((planet.height()/100)*75),"display":"none"})
+            }
           }break;
         }
+        if (!scalePlanets) {
 
-        if (true) {//make later widt setting
-          const procent = 90 * (data[planetNum].radius/biggestBodyKM)
-          planetImage.height(procent + "%")
-          planetImage.width(procent + "%")
+          console.log(planet.width())
+          
+          
 
-          if(planetNum == 5){//saturn sizing
-            planetImage.height((planetImage.height()/100)*137,72455)
-            planetImage.width(planetImage.height())
-          }
         }
-
       })
     }
 
@@ -273,9 +294,13 @@
       <div id="bar3" class="bar"></div>
     </div>
 
+    
     <ol>
+      
       <!-- <li><h3>planet</h3></li> -->
+      
     </ol>
+
 
     <menu id="planet_ol">
       <!-- <div class="planet_li">
@@ -283,6 +308,20 @@
         <h3>planet</h3>
         <img class="chevron" src="assets/icon-chevron.svg" alt="chevron">
       </div> -->
+      
+      <div class="switch_holder selected_switch">
+        <h3>real scale </h3>
+        <div class="switch">
+          <div class="slider"></div>
+        </div>
+      </div>
+      <div class="switch_holder">
+        <h3>real images </h3>
+        <div class="switch">
+          <div class="slider"></div>
+        </div>
+      </div>
+
     </menu>
     <hr>
     
@@ -290,10 +329,9 @@
 
   <main>
     
-    <hr>
     <section id="planet_space">
       <img id="chevron1" src="assets/icon-chevron.svg" alt="chevron">
-      <img id="planet" src="assets/planet-jupiter-internal.svg" alt="planet_image">
+      <img id="planet" src="assets/planet-jupiter.svg" alt="planet_image">
       <img id="chevron2" src="assets/icon-chevron.svg" alt="chevron">
       <img id="planet_surface_tooltip" src="assets/geology-neptune.png" alt="">
     </section>
@@ -308,12 +346,32 @@
       
     </article>
     <nav id="view_options">
-      <h3 id="1"><span>01</span>Overview</h3>
-      <h3 id="2"><span>02</span>Structure</h3>
-      <h3 id="3"><span>03</span>surface</h3>
-    </nav>
 
-    
+      <div id="1" class="view_setting">
+        <h3><span>01</span>Overview</h3>
+      </div>
+      <div id="2" class="view_setting">
+        <h3><span>02</span>Structure</h3>
+      </div>
+      <div id="3" class="view_setting">
+        <h3><span>03</span>surface</h3>
+      </div>
+
+      <div class="switch_holder selected_switch">
+        <h3>real scale </h3>
+        <div class="switch">
+          <div class="slider"></div>
+        </div>
+      </div>
+
+      <div class="switch_holder">
+        <h3>real images </h3>
+        <div class="switch">
+          <div class="slider"></div>
+        </div>
+      </div>
+
+    </nav>
 
     <section class="facts">
       <div>
