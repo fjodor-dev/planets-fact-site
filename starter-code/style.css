@@ -17,9 +17,9 @@
     margin: 0;
 }
 body{
-    width: 100vw;
+    /* width: 100vw; */
     background-image: url(assets/background-stars.svg);
-    overflow-x: hidden;
+    /* overflow: hidden; */
     background-color: var(--colorBackground);
     font-family: var(--Spartan);
     font-size: 14px;
@@ -77,14 +77,17 @@ hr{
 
 /* ___header_____________________________ */
 header{
-    /* max-width: 1440px; */
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
+    border-bottom:2px solid var(--colorborder);
+
+    padding: 0%;
+    z-index: 5;
     
-    overflow-x: hidden;
-    margin: auto;
+    background-color: var(--colorBackground);
+    background-image: url(assets/background-stars.svg);
     
 }
 header h2{
@@ -143,6 +146,7 @@ header ol{
     aspect-ratio: 1/1;
     border-radius: 50%;
     background-color: var(--colorWhite);
+    /* opacit y: 1; */
     float: left;
     
 }
@@ -154,6 +158,12 @@ header ol{
 .selected_switch{
     background-color: var(--selectedColor);
     border-color: var(--selectedColor);
+}
+.selected_switch .slider{
+    float: right;
+}
+.selected_switch .switch{
+
 }
 .selected_switch:hover{
     background-color: var(--selectedColor);
@@ -173,20 +183,19 @@ header ol{
   
 
 
-/* ___planet_list_________________________ */
+/* ___fold_out_menu______________________ */
 
-#planet_ol{
+#fold_out_menu{
     background: linear-gradient( rgba(7,7,36,1) 50%, rgb(17, 15, 57) 70%, rgb(24, 12, 75) 100%);
+    top: calc(-100vh + 98px);
     height: calc(100vh - 98px);
-    width: 100vw;
-    border-top:2px solid var(--colorborder);
+    /* z-index: -1; */
     display: flex;
     flex-wrap: wrap;
-    /* flex-direction: column; */
     justify-content: space-between;
     padding: 0 7.5%;
-    /* align-items: center; */
-    /* max-height: 0; */
+    position: absolute;
+
 
     
 }
@@ -199,7 +208,7 @@ header ol{
 
 }
 
-#planet_ol .planet_li{
+#fold_out_menu .planet_li{
     max-width: 800px;
     width: 100%;
     display: flex;
@@ -210,7 +219,7 @@ header ol{
 }
 
 
-#planet_ol .planet_li:hover{
+#fold_out_menu .planet_li:hover{
     background-color: var(--colorButtonHover);
 }
 .planet_li h3{
@@ -234,7 +243,7 @@ header ol{
     width: 10px;
 }
 
-#planet_ol .switch_holder{
+#fold_out_menu .switch_holder{
    
     margin-top: 10%;
 
@@ -249,7 +258,6 @@ header ol{
 
 /* ___main_______________________________ */
 main{
-    
     width: 85%;
     max-width: 1080px;
     margin: auto;
@@ -258,6 +266,7 @@ main{
     align-items: flex-start;
     text-align: center;
     /* display: none; */
+    /* z-index: -1; */
 }
 
 
@@ -270,6 +279,7 @@ main{
     justify-content: space-between;
     margin: auto;
     order: -2;
+    z-index: inherit;
     border-bottom: solid 2px var(--colorborder);
     
 }
@@ -303,11 +313,13 @@ main{
 width: 100%;
 aspect-ratio: 1/1;
 max-width: 540px;
+/* overflow: hidden; */
 margin: auto;
-
+z-index: inherit;
 display: flex;
 align-items: center;
-justify-content: space-around;
+justify-content: space-evenly;
+
 }
 
 #planet_space #chevron2, #planet_space #chevron1{
@@ -321,26 +333,29 @@ justify-content: space-around;
     
 
 }
+
 #planet_space #chevron2:hover, #planet_space #chevron1:hover{
-    height: 8%;
+    /* height: 8%; */
 }
 
 #planet_space #chevron1{
     transform: scaleX(-1);
-    margin-right: min(80%, 600px);
+    /* padding-left:  200px; */
+    margin-left: max(-400px, -78vw);
 }
 #planet_space #chevron2{
-    margin-left: min(80%, 600px);
+    /* left: 90% */
+    margin-left: min(400px, 78vw);
 }
 
 #planet{
-    /* width: 60px; */
-    z-index: -2;
+    max-width: 300%;
+    z-index: -3;
 }
 #planet_surface_tooltip{
     width: 16vw;
     max-width: 150px;
-    
+    z-index: -1;
     
     position: absolute;
     display: none;
@@ -353,7 +368,8 @@ justify-content: space-around;
 
 /* ___article____________________________ */
 article{
-    height: 266px;
+    z-index: inherit;
+    height: 316px;
 }
 article h1{
     margin: 0 0 20px 0;
@@ -381,6 +397,7 @@ article img{
 
 /* ___facts______________________________ */
 .facts{
+    z-index: inherit;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -417,10 +434,15 @@ article img{
 
     /* ___header_____________________________ */
     header h2{
+        background-color: rgba(255, 0, 0, 0);
         margin-inline: auto;
+       
     }
     #menu_bar {
         display: none;
+    }
+    header{
+        background-color: unset;
     }
     header ol{
         list-style: none;
@@ -432,7 +454,7 @@ article img{
     header ol li{
         padding-inline: 2px;
         z-index: 1;
-        margin-bottom: -2px;
+        /* margin-bottom: -2px; */
         border-color: #d2181800;
         border-bottom: solid 5px;
         cursor: pointer;
@@ -447,6 +469,10 @@ article img{
         /* margin: 1em; */
         font-size: 1.1em;
         font-weight: 600;
+    }
+
+    #fold_out_menu{
+        display: none;
     }
 
 
@@ -470,6 +496,9 @@ article img{
     /* ___planet_____________________________ */
     #planet_space{
       
+    }
+    #planet{
+        /* max-width: initial; */
     }
 
     /* ___view_options_______________________ */
@@ -528,10 +557,12 @@ article img{
         width: 47%;
     }
     
+    
 
     
    
     /* ___article____________________________ */
+    
     article{
         width: 50%;
         height: 366px;

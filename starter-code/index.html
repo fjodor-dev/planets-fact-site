@@ -11,18 +11,30 @@
   <script src="script/jquery-3.6.0.min.js"></script>
   <script>
 
+/*////////////////////////////////////////////////////////
+//                   handle   sessionStorage            //
+////////////////////////////////////////////////////////*/
+
   $('document').ready(()=>{
 
   /*////////////////////////////////////////////////////////
   //              global variables declaretion            //
   ////////////////////////////////////////////////////////*/
-
+    
   
-    let planetNum = 2
+    if(sessionStorage.getItem("planetNum") === null){
+      sessionStorage.setItem("planetNum", 2)
+    }
+
+    let planetNum = sessionStorage.getItem("planetNum")
     let selectedView = 1
     let planetCount = 0
     let selectedColor
+
     let scalePlanets = true
+    let realImages = false
+
+    let menuIsFoldedOut = false
 
     const biggestBodyKM = 69911 //jupiter, needed for scaling planets
     
@@ -34,7 +46,10 @@
     const menuIconBar3 = $("header #menu_bar #bar3")
 
     const headerOl = $("header ol")
-    const foldOutMenu = $("header #planet_ol").hide()
+    const foldOutMenu = $("#fold_out_menu")
+
+    const scaleSwitch = $(".scale_switch")
+    const imageSwitch = $(".image_switch")
 
     const main = $("main")
 
@@ -54,8 +69,11 @@
   //                   linear program flow                //
   ////////////////////////////////////////////////////////*/
 
+    
+
     chevron1.finish().fadeOut(1200);
     chevron2.finish().fadeOut(1200);
+
 
     viewOptions.children().first().addClass("viewSelected")
     setData();
@@ -78,21 +96,55 @@
   ////////////////////////////////////////////////////////*/
   
     menuIcon.on("click",()=>{
-      main.fadeToggle(100)
-      foldOutMenu.finish().slideToggle(300)
+     
+      if (menuIsFoldedOut) {
+        //fold in
+        menuIsFoldedOut = false
+        main.show()
+        foldOutMenu.finish().animate({"top": "-100vh"},300)
+      }else{
+        //fold out
+        menuIsFoldedOut = true
+        foldOutMenu.finish().animate({"top": "98px"},400,()=>{
+          main.hide()
+        })
+      }
+
+     
     })
    
     foldOutMenu.on("click",".planet_li",function(){
       planetNum = parseInt($(this).attr("id"))
-      main.fadeToggle(100)
-      foldOutMenu.finish().slideToggle(200)
+      sessionStorage.setItem("planetNum", planetNum)
       setData()
+
+      menuIsFoldedOut = false
+      main.show()
+      foldOutMenu.finish().animate({"top": "-100vh"},300)
+
     })
+
+    $(".switch_holder").on("click",function(){
+      $(this).toggleClass("selected_switch")
+      // console.log($(this).attr("id"))
+    })
+
+    imageSwitch.on("click",function(){
+      realImages = !realImages
+    })
+
+    scaleSwitch.on("click",function(){
+      scalePlanets = !scalePlanets
+    })
+
+    
+
 
     headerOl.on("click","li",function(){
       let prePlanet = planetNum
       // planet.css("background-color", "red")
       planetNum = parseInt($(this).attr("id"))
+      sessionStorage.setItem("planetNum", planetNum)
       if(prePlanet < planetNum){
         swipePlanet(true)
       }
@@ -104,7 +156,6 @@
     })
 
     viewOptions.on("click",".view_setting",function(){
-      console.log("click: " + parseInt($(this).attr("id")))
       viewOptions.children(".view_setting").removeClass("viewSelected")
       $(this).addClass("viewSelected")
       selectedView = parseInt($(this).attr("id"))
@@ -135,17 +186,21 @@
     chevron1.on("click",()=>{
       if(planetNum > 0 ){
         planetNum--
+        sessionStorage.setItem("planetNum", planetNum)
         swipePlanet(false)
         return
       }
+      chevron1.css("height", "12%")
     })
     
     chevron2.on("click",()=>{
       if(planetNum < planetCount-1){
         planetNum++
+        sessionStorage.setItem("planetNum", planetNum)
         swipePlanet(true)
         return
       }
+      chevron1.css("height", "12%")
     })
 
     
@@ -228,17 +283,17 @@
         headerOl.children("li:nth-child("+ (planetNum + 1) +")").css("border-color", "var(--selectedColor)")
 
         mainPlanetName.text(data[planetNum].name)
+        setExtraAPIData(data[planetNum].name)
 
         planetToolTip.css("display","none").attr("src", data[planetNum].images.geology)
 
         if (scalePlanets) {
-          const procent = 90 * (data[planetNum].radius/biggestBodyKM)
-          planet.height(procent + "%")
-          planet.width(procent + "%")
-
+          let procent = 90
           if(planetNum == 5){//saturn sizing
-            planet.height((planet.height()/100)*137,72455)
-            planet.width(planet.height())
+            planet.height(((procent/100)*137.72455) + "%")
+          }else{
+            procent *= (data[planetNum].radius/biggestBodyKM)
+            planet.height(procent + "%")
           }
         }
         
@@ -267,17 +322,22 @@
             }
           }break;
         }
+
         if (!scalePlanets) {
-
-          console.log(planet.width())
-          
-          
-
+          planet.css({"width":"auto", "height": "auto"})
         }
+
       })
     }
 
+    function setExtraAPIData(name){
+      $.ajax({url: "https://api.le-systeme-solaire.net/rest/bodies/" + name , success: function(data){
+        
+          
+        console.log(data.englishName)
 
+      }});
+    }
 
 
 
@@ -293,39 +353,34 @@
       <div id="bar2" class="bar"></div>
       <div id="bar3" class="bar"></div>
     </div>
-
-    
     <ol>
       
       <!-- <li><h3>planet</h3></li> -->
       
     </ol>
-
-
-    <menu id="planet_ol">
-      <!-- <div class="planet_li">
-        <div class="planet_icon"></div>
-        <h3>planet</h3>
-        <img class="chevron" src="assets/icon-chevron.svg" alt="chevron">
-      </div> -->
-      
-      <div class="switch_holder selected_switch">
-        <h3>real scale </h3>
-        <div class="switch">
-          <div class="slider"></div>
-        </div>
-      </div>
-      <div class="switch_holder">
-        <h3>real images </h3>
-        <div class="switch">
-          <div class="slider"></div>
-        </div>
-      </div>
-
-    </menu>
-    <hr>
-    
   </header>
+
+  <menu id="fold_out_menu">
+    <!-- <div class="planet_li">
+      <div class="planet_icon"></div>
+      <h3>planet</h3>
+      <img class="chevron" src="assets/icon-chevron.svg" alt="chevron">
+    </div> -->
+    
+    <div class="switch_holder selected_switch scale_switch" >
+      <h3>real scale </h3>
+      <div class="switch">
+        <div class="slider"></div>
+      </div>
+    </div>
+    <div class="switch_holder image_switch">
+      <h3>real images </h3>
+      <div class="switch">
+        <div class="slider"></div>
+      </div>
+    </div>
+
+  </menu>
 
   <main>
     
@@ -357,14 +412,14 @@
         <h3><span>03</span>surface</h3>
       </div>
 
-      <div class="switch_holder selected_switch">
+      <div class="switch_holder selected_switch scale_switch">
         <h3>real scale </h3>
         <div class="switch">
           <div class="slider"></div>
         </div>
       </div>
 
-      <div class="switch_holder">
+      <div class="switch_holder image_switch">
         <h3>real images </h3>
         <div class="switch">
           <div class="slider"></div>
