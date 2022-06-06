@@ -60,6 +60,8 @@ $('document').ready(()=>{
 
   const viewOptions = main.children("#view_options")
 
+  const detailsAPIData = $('#facts')
+
 /*////////////////////////////////////////////////////////
 //                   linear program flow                //
 ////////////////////////////////////////////////////////*/
@@ -329,10 +331,78 @@ $('document').ready(()=>{
   function setExtraAPIData(name){
     $.ajax({url: "https://api.le-systeme-solaire.net/rest/bodies/" + name , success: function(data){
       
-        
+      let endValue
+
+      detailsAPIData.html("")
+
       console.log(data.englishName)
 
-    }});
+      const dataNotNeeded = [null,"", " ", "id", "name", "isPlanet", "bodyType"]
+
+      for (const key in data) {
+
+        if (dataNotNeeded.includes(data[key])||dataNotNeeded.includes(key)){
+          continue
+        }
+
+
+        switch (key) {
+
+          case "mass": endValue = `${data.mass.massValue} × 10<sup>${data.mass.massExponent}</sup> kg`
+            break;
+          case "vol": endValue = `${data.vol.volValue} × 10<sup>${data.vol.volExponent}</sup> kg`
+            break;
+
+          case "moons": endValue = data[key].length
+            break;
+
+          case "escape":endValue = data[key] + " m/s"
+            break;
+
+          case "gravity": endValue = data[key] + " m/s<sup>2</sup>"
+            break;
+
+          case "avgTemp": endValue = data[key] + " k"
+            break;
+
+          case "sideralOrbit": endValue = data[key] + " days"
+            break; 
+
+          case "sideralRotation": endValue = data[key] + " hours"
+            break;
+
+          case "density": endValue = data[key] + " g/cm<sup>3</sup>"
+            break;
+
+          case "mainAnomaly":
+          case "inclination":
+          case "axialTilt": endValue = data[key] + "°"
+            break;
+
+          case "semimajorAxis":
+          case "perihelion":
+          case "aphelion":
+          case "flattening":
+          case "polarRadius": 
+          case "equaRadius": 
+          case "meanRadius": endValue = data[key] + " km"
+            break;
+
+          default: endValue = data[key]
+            break;
+        }
+
+        
+        detailsAPIData.append(
+        `<div>
+        <h4>${key}</h4>
+        <h2>${endValue}</h2>
+        </div>`
+        )
+       
+      }
+
+    }})
   }
 
   
@@ -425,55 +495,13 @@ $('document').ready(()=>{
 
     </nav>
 
-    <section class="facts">
-      <div>
+    <section id="facts">
+      <!-- <div>
         <h4>field name</h4>
         <h2>data value</h2>
-      </div>
-      <div>
-        <h4>field name</h4>
-        <h2>data value</h2>
-      </div>
-      <div>
-        <h4>field name</h4>
-        <h2>data value</h2>
-      </div>
-      <div>
-        <h4>field name</h4>
-        <h2>data value</h2>
-      </div>
-      <div>
-        <h4>field name</h4>
-        <h2>data value</h2>
-      </div>
-      <div>
-        <h4>field name</h4>
-        <h2>data value</h2>
-      </div>
-      <div>
-        <h4>field name</h4>
-        <h2>data value</h2>
-      </div>
-      <div>
-        <h4>field name</h4>
-        <h2>data value</h2>
-      </div>
-      <div>
-        <h4>field name</h4>
-        <h2>data value</h2>
-      </div>
-      <div>
-        <h4>field name</h4>
-        <h2>data value</h2>
-      </div>
-      <div>
-        <h4>field name</h4>
-        <h2>data value</h2>
-      </div>
-      <div>
-        <h4>field name</h4>
-        <h2>data value</h2>
-      </div>
+      </div> -->
+      
+
     </section>
   </main>
   <footer>
