@@ -398,7 +398,7 @@ article img{
 
 
 /* ___facts______________________________ */
-.facts{
+#facts{
     min-height: 600px;
 }
 .facts,.moonData{
