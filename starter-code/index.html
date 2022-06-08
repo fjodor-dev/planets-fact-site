@@ -27,7 +27,7 @@ $('document').ready(()=>{
   let selectedColor
 
   let scalePlanets = true
-  let realImages = false
+  let showMoons = false
 
   let menuIsFoldedOut = false
 
@@ -44,7 +44,7 @@ $('document').ready(()=>{
   const foldOutMenu = $("#fold_out_menu")
 
   const scaleSwitch = $(".scale_switch")
-  const imageSwitch = $(".image_switch")
+  const moonsSwitch = $(".moons_switch")
 
   const main = $("main")
 
@@ -61,6 +61,7 @@ $('document').ready(()=>{
   const viewOptions = main.children("#view_options")
 
   const detailsAPIData = $('#facts')
+  const allMoons = $("#moons")
 
 /*////////////////////////////////////////////////////////
 //                   linear program flow                //
@@ -70,6 +71,7 @@ $('document').ready(()=>{
   chevron2.finish().fadeOut(1200);
 
   viewOptions.children().first().addClass("viewSelected")
+  allMoons.slideUp(1)
   setData();
 
   $.getJSON("script/data.json", (data)=>{
@@ -123,8 +125,15 @@ $('document').ready(()=>{
     // console.log($(this).attr("id"))
   })
 
-  imageSwitch.on("click",function(){
-    realImages = !realImages
+  moonsSwitch.on("click",function(){
+    showMoons = !showMoons
+    allMoons.slideToggle()
+    
+  })
+  $("#moonsH2").on("click",function(){
+    showMoons = !showMoons
+    allMoons.slideToggle()
+    // $("#moonsH2").children("img").animate({ deg: 180 })
   })
 
   scaleSwitch.on("click",function(){
@@ -197,7 +206,11 @@ $('document').ready(()=>{
     chevron1.css("height", "12%")
   })
 
-  
+  detailsAPIData.on('click', "#moons",function(){
+    	
+    $("#moons").children(".foldOutData").finish().slideToggle()
+
+  })
 
 /*////////////////////////////////////////////////////////
 //                   costum functions                   //
@@ -278,6 +291,8 @@ $('document').ready(()=>{
       headerOl.children("li:nth-child("+ (planetNum + 1) +")").css("border-color", "var(--selectedColor)")
 
       mainPlanetName.text(data[planetNum].name)
+
+      detailsAPIData.html("")
       setExtraAPIData(data[planetNum].name)
 
       planetToolTip.css("display","none").attr("src", data[planetNum].images.geology)
@@ -328,14 +343,9 @@ $('document').ready(()=>{
     })
   }
 
-  function setExtraAPIData(name){
+  function setExtraAPIData(name, element = detailsAPIData){
+
     $.ajax({url: "https://api.le-systeme-solaire.net/rest/bodies/" + name , success: function(data){
-      
-      let endValue
-
-      detailsAPIData.html("")
-
-      console.log(data.englishName)
 
       const dataNotNeeded = [null,"", " ", "id", "name", "isPlanet", "bodyType"]
 
@@ -345,38 +355,52 @@ $('document').ready(()=>{
           continue
         }
 
-
         switch (key) {
 
-          case "mass": endValue = `${data.mass.massValue} × 10<sup>${data.mass.massExponent}</sup> kg`
+          case "mass": setFact(`${data.mass.massValue} × 10<sup>${data.mass.massExponent}</sup> kg`,key)
             break;
-          case "vol": endValue = `${data.vol.volValue} × 10<sup>${data.vol.volExponent}</sup> kg`
-            break;
-
-          case "moons": endValue = data[key].length
+          case "vol": setFact(`${data.vol.volValue} × 10<sup>${data.vol.volExponent}</sup> kg`, "volume")
             break;
 
-          case "escape":endValue = data[key] + " m/s"
+          case "moons": {
+
+            setFact(data[key].length,key)
+
+            for (let index = 0; index < data.moons.length; index++) {
+              const id = data.moons[index].rel.split('/');
+              // console.log(id[id.length-1]);
+              allMoons.append(
+                `<div class="fact moon" id="${id[id.length-1]}">
+                <h4>moon</h4>
+                <h2>${data.moons[index].moon}</h2>
+                </div>`
+              )
+            }
+
+          }
             break;
 
-          case "gravity": endValue = data[key] + " m/s<sup>2</sup>"
+          case "escape": setFact(data[key] + " m/s",key)
             break;
 
-          case "avgTemp": endValue = data[key] + " k"
+          case "gravity": setFact(data[key] + " m/s<sup>2</sup>",key)
             break;
 
-          case "sideralOrbit": endValue = data[key] + " days"
-            break; 
-
-          case "sideralRotation": endValue = data[key] + " hours"
+          case "avgTemp": setFact(data[key] + " k", "averageTempeture",key)
             break;
 
-          case "density": endValue = data[key] + " g/cm<sup>3</sup>"
+          case "sideralOrbit": setFact(data[key] + " days",key)
+            break;
+
+          case "sideralRotation": setFact(data[key] + " hours",key)
+            break;
+
+          case "density": setFact(data[key] + " g/cm<sup>3</sup>",key)
             break;
 
           case "mainAnomaly":
           case "inclination":
-          case "axialTilt": endValue = data[key] + "°"
+          case "axialTilt": setFact(data[key] + "°",key)
             break;
 
           case "semimajorAxis":
@@ -384,28 +408,41 @@ $('document').ready(()=>{
           case "aphelion":
           case "flattening":
           case "polarRadius": 
-          case "equaRadius": 
-          case "meanRadius": endValue = data[key] + " km"
+          case "meanRadius": setFact(data[key] + "km",key)
             break;
 
-          default: endValue = data[key]
+          case "equaRadius": setFact(data[key] + "km", "equaterRadius")
+            break;
+          default: setFact(data[key],key)
             break;
         }
 
         
-        detailsAPIData.append(
-        `<div>
-        <h4>${key}</h4>
-        <h2>${endValue}</h2>
-        </div>`
-        )
        
       }
 
+      function setFact(endValue, endkey) {
+
+        detailsAPIData.append(
+          `<div class="fact">
+          <h4>${endkey.replace(/[A-Z]/g, ' $&').trim()}</h4>
+          <h2>${endValue}</h2>
+          </div>`
+        )
+
+      }
+
     }})
+
   }
 
-  
+
+
+
+
+
+
+
 
 
 })
@@ -440,17 +477,15 @@ $('document').ready(()=>{
         <div class="slider"></div>
       </div>
     </div>
-    <div class="switch_holder image_switch">
+    <div class="switch_holder moons_switch">
       <h3>real images </h3>
       <div class="switch">
         <div class="slider"></div>
       </div>
     </div>
-
   </menu>
 
   <main>
-    
     <section id="planet_space">
       <img id="chevron1" src="assets/icon-chevron.svg" alt="chevron">
       <img id="planet" src="assets/planet-jupiter.svg" alt="planet_image">
@@ -486,8 +521,8 @@ $('document').ready(()=>{
         </div>
       </div>
 
-      <div class="switch_holder image_switch">
-        <h3>real images </h3>
+      <div class="switch_holder moons_switch">
+        <h3>all moons</h3>
         <div class="switch">
           <div class="slider"></div>
         </div>
@@ -495,13 +530,18 @@ $('document').ready(()=>{
 
     </nav>
 
-    <section id="facts">
+    <section class="facts" id="facts">
       <!-- <div>
         <h4>field name</h4>
         <h2>data value</h2>
       </div> -->
-      
-
+    </section>
+    <h2 id="moonsH2">moons<img src="assets/icon-chevron.svg" alt="chevron"></h2>
+    <section class="facts" id="moons">
+      <!-- <div>
+        <h4>field name</h4>
+        <h2>data value</h2>
+      </div> -->
     </section>
   </main>
   <footer>

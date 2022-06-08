@@ -396,30 +396,50 @@ article img{
 
 
 /* ___facts______________________________ */
-#facts{
+.facts{
     z-index: inherit;
     width: 100%;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
 }
-#facts div{
+.facts .fact{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
+    flex-wrap: wrap;
     width: 100%;
     border: solid 2px var(--colorborder);
     margin-bottom: 10px;
-    padding: 0 2em;
+    padding: min(2%, 10px) 0;
 }
-#facts h4{
+.facts h4{
     color: var(--colorGrey);
     font-size: 1em;
+    margin: 0 1em;
 }
-#facts h2{
+.facts h2{
     font-size: 1.7em;
+    margin: 0 1em;
 }
+
+.foldOutData{
+    width: 100%;
+    margin-left: -2px;
+}
+#moonsH2{
+    text-align: center;
+    width: 100%;
+    border-bottom:solid 2px var(--colorborder);
+}
+#moonsH2 img{
+    position: absolute;
+    width: 20px;
+    
+    margin: 14px;
+    transform: rotate(90deg);
+}
+
 
 
 
@@ -574,17 +594,21 @@ article img{
     }
 
     /* ___facts______________________________ */
-    #facts div{
-
-        justify-content: center;
-        padding: min(20px, 2%);
+    #facts .fact{
         
+        justify-content: center;
         flex-direction: column;
-        width: 27%;
+        width: 31%;
         margin-bottom: 20px;
         align-items: flex-start;
     }
+    #facts h4, #facts h2{
+        margin: 0 0 0 20px;
+    }
+    
 
+
+    
 
 /*////////////////////////////////////////////////////////
 //                Media Query > 1024px                  //
@@ -649,9 +673,10 @@ article img{
         }
 
         /* ___facts______________________________ */
-        #facts div{ 
-            width: 19%;
+        #facts .fact{ 
+            width: 23.5%;
         }
+        
     }
 
 }
