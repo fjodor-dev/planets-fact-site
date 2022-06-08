@@ -10,7 +10,7 @@ Users should be able to:
 - See hover states for all interactive elements on the page
 - View each planet page and toggle between "Overview", "Internal Structure", and "Surface Geology"
 
-### What i learnd
+### What i learnt
 
 - css variables
 - css functions
