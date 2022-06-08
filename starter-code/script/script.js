@@ -295,7 +295,7 @@ $('document').ready(()=>{
           planetToolTip.css("display","none").attr("src", data[planetNum].images.geology)
     
           if (scalePlanets) {
-            let procent = 90
+            let procent = 80
             if(data[planetNum].name == "Saturn"){//saturn sizing
               planet.height(((procent/100)*137.72455) + "%")
               planet.css("min-width", "unset")
