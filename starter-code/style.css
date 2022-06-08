@@ -19,11 +19,12 @@
 body{
     /* width: 100vw; */
     background-image: url(assets/background-stars.svg);
-    /* overflow: hidden; */
+    overflow-x: hidden;
     background-color: var(--colorBackground);
     font-family: var(--Spartan);
     font-size: 14px;
     color: white;
+    padding-bottom: 50px;
     /* text-transform: capitalize; */
 }
 
@@ -258,7 +259,6 @@ header ol{
 
 /* ___main_______________________________ */
 main{
-    width: 85%;
     max-width: 1080px;
     margin: auto;
     display: flex;
@@ -276,7 +276,7 @@ main{
     color: var(--colorGrey);
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     margin: auto;
     order: -2;
     z-index: inherit;
@@ -368,6 +368,8 @@ justify-content: space-evenly;
 
 /* ___article____________________________ */
 article{
+    width: 85%;
+    margin: auto;
     z-index: inherit;
     height: 316px;
 }
@@ -397,13 +399,19 @@ article img{
 
 /* ___facts______________________________ */
 .facts{
+    min-height: 600px;
+}
+.facts,.moonData{
+    
     z-index: inherit;
-    width: 100%;
+    margin: auto;
+    width: 85%;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    
 }
-.facts .fact{
+.facts .fact,.moonData .fact{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -413,24 +421,34 @@ article img{
     margin-bottom: 10px;
     padding: min(2%, 10px) 0;
 }
-.facts h4{
+.facts h4,.moonData h4{
     color: var(--colorGrey);
     font-size: 1em;
-    margin: 0 1em;
+    margin: 0 16px;
 }
-.facts h2{
+.facts h2,.moonData h2{
     font-size: 1.7em;
-    margin: 0 1em;
+    margin: 0 16px;
 }
 
-.foldOutData{
-    width: 100%;
-    margin-left: -2px;
+.moonData{
+    width: 95%;
+    
+    /* margin-left: calc(0% - 2px); */
+    margin-top: 4px;
+    
+   
+}
+.moonData .fact{
+    
+   
 }
 #moonsH2{
     text-align: center;
-    width: 100%;
     border-bottom:solid 2px var(--colorborder);
+    width: 85%;
+    margin: auto;
+    margin-bottom: -2px;
 }
 #moonsH2 img{
     position: absolute;
@@ -594,7 +612,10 @@ article img{
     }
 
     /* ___facts______________________________ */
-    #facts .fact{
+    .facts{
+        width: 100%;
+    }
+    #facts .fact, .moonData .fact{
         
         justify-content: center;
         flex-direction: column;
@@ -602,8 +623,11 @@ article img{
         margin-bottom: 20px;
         align-items: flex-start;
     }
-    #facts h4, #facts h2{
+    #facts h4, #facts h2,.moonData h2, .moonData h4{
         margin: 0 0 0 20px;
+    }
+    #moonsH2{
+        width: 100%;
     }
     
 
@@ -673,7 +697,8 @@ article img{
         }
 
         /* ___facts______________________________ */
-        #facts .fact{ 
+        #facts .fact,.moonData .fact{
+    
             width: 23.5%;
         }
         

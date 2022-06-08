@@ -192,11 +192,21 @@ $('document').ready(()=>{
         }
         chevron1.css("height", "12%")
       })
-    
-      detailsAPIData.on('click', "#moons",function(){
-            
-        $("#moons").children(".foldOutData").finish().slideToggle()
-    
+
+      allMoons.on('click',".moon",function () {
+        console.log($(this).attr('id'))
+       
+        // $(this).children(".moonData").html("").slideToggle()
+        
+        if ($(this).children(".moonData").children("div").length == 0) {
+          
+          setExtraAPIData($(this).attr('id'), $(this).children(".moonData"))
+
+          $(this).children(".moonData").delay(1000).slideDown()
+          return
+        }
+        $(this).children(".moonData").finish().slideToggle()
+        
       })
     
     /*////////////////////////////////////////////////////////
@@ -205,10 +215,8 @@ $('document').ready(()=>{
     
       function swipePlanet(plus) {
     
-        
         $(".swipingPlanet").remove()
         
-    
         planetImageClone = planet.clone()
         planetImageClone.css("min-width", "0")
         
@@ -265,6 +273,7 @@ $('document').ready(()=>{
       }
     
       function setData(){
+        $("#moonsH2").css("opacity", "0")
         $.getJSON("script/data.json", (data)=>{
     
           selectedColor = data[planetNum].color
@@ -280,6 +289,7 @@ $('document').ready(()=>{
           mainPlanetName.text(data[planetNum].name)
     
           detailsAPIData.html("")
+          allMoons.html("")
           setExtraAPIData(data[planetNum].name)
     
           planetToolTip.css("display","none").attr("src", data[planetNum].images.geology)
@@ -328,13 +338,14 @@ $('document').ready(()=>{
           }
     
         })
+        $("#moonsH2").css("opacity", "1")
       }
     
       function setExtraAPIData(name, element = detailsAPIData){
     
         $.ajax({url: "https://api.le-systeme-solaire.net/rest/bodies/" + name , success: function(data){
     
-          const dataNotNeeded = [null,"", " ", "id", "name", "isPlanet", "bodyType"]
+          const dataNotNeeded = [null,"", " ", "id", "name", "isPlanet"]
     
           for (const key in data) {
     
@@ -352,19 +363,21 @@ $('document').ready(()=>{
               case "moons": {
     
                 setFact(data[key].length,key)
-    
-                allMoons.html("")
 
+                
+    
                 for (let index = 0; index < data.moons.length; index++) {
                   const id = data.moons[index].rel.split('/');
                   // console.log(id[id.length-1]);
                   
                   allMoons.append(
                     `<div class="fact moon" id="${id[id.length-1]}">
-                    <h4>moon</h4>
-                    <h2>${data.moons[index].moon}</h2>
+                      <h4>moon</h4>
+                      <h2>${data.moons[index].moon}</h2>
+                      <div class="moonData">
+                      </div>
                     </div>`
-                  )
+                  ).last().toggle()
                 }
     
               }
@@ -407,20 +420,20 @@ $('document').ready(()=>{
                 break;
             }
     
-            
+            function setFact(endValue, endkey) {
+    
+              element.append(
+                `<div class="fact">
+                <h4>${endkey.replace(/[A-Z]/g, ' $&').trim()}</h4>
+                <h2>${endValue}</h2>
+                </div>`
+              )
+      
+            }
            
           }
     
-          function setFact(endValue, endkey) {
-    
-            detailsAPIData.append(
-              `<div class="fact">
-              <h4>${endkey.replace(/[A-Z]/g, ' $&').trim()}</h4>
-              <h2>${endValue}</h2>
-              </div>`
-            )
-    
-          }
+          
     
         }})
     
