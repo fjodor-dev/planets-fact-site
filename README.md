@@ -10,32 +10,38 @@ Users should be able to:
 - See hover states for all interactive elements on the page
 - View each planet page and toggle between "Overview", "Internal Structure", and "Surface Geology"
 
+### What i learnd
+
+- css variables
+- css functions
+- litle of css positoining
+- importing from google fonts
+- match more Jqeury
+- how to read JSON files
+
 ### Screenshot
 
 ![](Screenshot%202022-06-08%20at%2015-29-19%20Frontend%20Mentor%20Planets%20fact%20site.png)
-
 
 ### Links
 
 - Solution URL: (https://github.com/fjodor-dev/planets-fact-site)
 - Live Site URL: (https://fjodor-dev.github.io/Git-Pages/planets-fact-site/index.html)
 
-## My process
-
 ### Built with
 
-- Semantic HTML5 markup
-- CSS custom properties
 - Flexbox
 - Mobile-first workflow
 - Jqeury
-- planetAPi(https://api.le-systeme-solaire.net)
-
-
-### What I learned
+- A Solar-System API(https://api.le-systeme-solaire.net)
 
 ### Continued development
 
-writing faster css with sass scss and gridbox layout
+writing faster css with sass scss and gridbox layout and get more knowledge of how to get API data
 
-### Useful resources
+### More Screenshots
+
+![](Screenshot%202022-06-08%20at%2015-41-38%20Frontend%20Mentor%20Planets%20fact%20site.png)
+![](Screenshot%202022-06-08%20at%2015-42-05%20Frontend%20Mentor%20Planets%20fact%20site.png)
+![](Screenshot%202022-06-08%20at%2015-43-55%20Frontend%20Mentor%20Planets%20fact%20site.png)
+
