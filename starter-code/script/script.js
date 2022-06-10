@@ -54,8 +54,8 @@ $('document').ready(()=>{
     //                   linear program flow                //
     ////////////////////////////////////////////////////////*/
     
-      chevron1.finish().fadeOut(1200);
-      chevron2.finish().fadeOut(1200);
+      // chevron1.finish().fadeOut(1200);
+      // chevron2.finish().fadeOut(1200);
     
       viewOptions.children().first().addClass("viewSelected")
       allMoons.slideUp(1)
@@ -69,8 +69,8 @@ $('document').ready(()=>{
           //fill header list
           headerOl.prepend('<li id="'+ index +'"><h3>'+ data[index].name +'</h3></li>')
           // fill hamburger menu
-          foldOutMenu.prepend('<div class="planet_li" id="'+ index +'"><img src="'+ data[index].images.planet + '" class="planet_icon"><h3>'+ data[index].name +'</h3><img class="chevron" src="assets/icon-chevron.svg" alt="chevron"></div>')
-          foldOutMenu.children(".planet_li").last().children(".planet_icon").css( "background-image", 'url("'+ data[index].images.planet + '")')
+          foldOutMenu.prepend('<div class="planet_li" id="'+ index +'"><div class="planet_icon"></div><h3>'+ data[index].name +'</h3><img class="chevron" src="assets/icon-chevron.svg" alt="chevron"></div>')
+          foldOutMenu.children(".planet_li").first().children(".planet_icon").css( "background-color", data[index].color + "")
         }
       })
     
@@ -120,7 +120,7 @@ $('document').ready(()=>{
       $("#moonsH2").on("click",function(){
         showMoons = !showMoons
         allMoons.slideToggle()
-        // $("#moonsH2").children("img").animate({ deg: 180 })
+        $("#moonsH2").children("img").animate({ deg: 180 })
       })
     
       scaleSwitch.on("click",function(){
@@ -153,25 +153,25 @@ $('document').ready(()=>{
         setData();
       })
     
-      planetSpace.on("mousemove",()=>{
-        if(planetNum > 0){
-          chevron1.finish().fadeIn(600);
-        }else{
-          chevron1.finish().fadeOut(300);
-        }
-        if(planetNum < planetCount-1){
-          chevron2.finish().fadeIn(600);
-        }else{
-          chevron2.finish().fadeOut(300);
-        }
-      }).on("mouseleave",()=>{
-        chevron1.finish().fadeOut(300);
-        chevron2.finish().fadeOut(300);
-      }).on("swiperight", ()=>{
-        console.log("swipeR")
-      }).on("swipeleft", ()=>{
-        console.log("swipeL")
-      })
+      // planetSpace.on("mousemove",()=>{
+      //   if(planetNum > 0){
+      //     chevron1.finish().fadeIn(600);
+      //   }else{
+      //     chevron1.finish().fadeOut(300);
+      //   }
+      //   if(planetNum < planetCount-1){
+      //     chevron2.finish().fadeIn(600);
+      //   }else{
+      //     chevron2.finish().fadeOut(300);
+      //   }
+      // }).on("mouseleave",()=>{
+      //   chevron1.finish().fadeOut(300);
+      //   chevron2.finish().fadeOut(300);
+      // }).on("swiperight", ()=>{
+      //   console.log("swipeR")
+      // }).on("swipeleft", ()=>{
+      //   console.log("swipeL")
+      // })
     
       chevron1.on("click",()=>{
         if(planetNum > 0 ){
@@ -180,7 +180,7 @@ $('document').ready(()=>{
           swipePlanet(false)
           return
         }
-        chevron1.css("height", "12%")
+        // chevron1.css("height", "12%")
       })
       
       chevron2.on("click",()=>{
@@ -190,14 +190,14 @@ $('document').ready(()=>{
           swipePlanet(true)
           return
         }
-        chevron1.css("height", "12%")
+        // chevron1.css("height", "12%")
       })
 
       allMoons.on('click',".moon",function () {
-        console.log($(this).attr('id'))
-       
-        // $(this).children(".moonData").html("").slideToggle()
-        
+        // console.log($(this).attr('id'))
+
+        // $(this).children(".chevron").css("transform", "rotate(0deg)")
+               
         if ($(this).children(".moonData").children("div").length == 0) {
           
           setExtraAPIData($(this).attr('id'), $(this).children(".moonData"))
@@ -373,7 +373,7 @@ $('document').ready(()=>{
                   allMoons.append(
                     `<div class="fact moon" id="${id[id.length-1]}">
                       <h4>moon</h4>
-                      <h2>${data.moons[index].moon}</h2>
+                      <h2>${data.moons[index].moon}<img class="chevron" src="assets/icon-chevron.svg" alt=""></h2>
                       <div class="moonData">
                       </div>
                     </div>`

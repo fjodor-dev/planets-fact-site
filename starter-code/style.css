@@ -117,6 +117,7 @@ header ol{
 
 
 
+
 /* ___switch_________________________ */
  .switch_holder{
      display: flex;
@@ -201,14 +202,6 @@ header ol{
     
 }
 
-.planet_li:first-child{
-    /* margin-top: 3.2em; */
-}
-.planet_li:last-child{
-    /* border-bottom: none; */
-
-}
-
 #fold_out_menu .planet_li{
     max-width: 800px;
     width: 100%;
@@ -230,18 +223,16 @@ header ol{
     color: var(--colorWhite);
 }
 .planet_icon{
-    /* border-radius: 50%; */
+    border-radius: 50%;
     width: 8%;
     max-width: 40px;
-    /* aspect-ratio: 1/1; */
+    aspect-ratio: 1/1;
     position: absolute;
-    /* background-color: rgb(224, 93, 11); */
-    /* background-image: url(assets/planet-mercury.svg); */
-    /* background-position: center;
-    background-size: cover; */
+    background-color: rgb(224, 93, 11);
 }
-.chevron{
+#fold_out_menu .chevron{
     width: 10px;
+    transform: rotate(0deg);
 }
 
 #fold_out_menu .switch_holder{
@@ -260,6 +251,7 @@ header ol{
 /* ___main_______________________________ */
 main{
     max-width: 1080px;
+    overflow: hidden;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -313,7 +305,8 @@ main{
 width: 100%;
 aspect-ratio: 1/1;
 max-width: 540px;
-/* overflow: hidden; */
+
+overflow: hidden;
 margin: auto;
 z-index: inherit;
 display: flex;
@@ -322,33 +315,31 @@ justify-content: space-evenly;
 
 }
 
-#planet_space #chevron2, #planet_space #chevron1{
+#chevron2, #chevron1{
     height: 12%;
-   
     max-height: 100px;
     /* aspect-ratio: 1/2.4; */
     width: 20px;
     cursor: pointer;
     position: absolute;
-    
+    z-index: auto;
 
 }
 
-#planet_space #chevron2:hover, #planet_space #chevron1:hover{
-    /* height: 8%; */
-}
 
-#planet_space #chevron1{
+#chevron1{
     transform: scaleX(-1);
-    /* padding-left:  200px; */
-    margin-left: max(-400px, -78vw);
+    left: 20px
 }
-#planet_space #chevron2{
-    /* left: 90% */
-    margin-left: min(400px, 78vw);
+#chevron2{
+    right: 20px
+    
 }
 
 #planet{
+    position: relative;
+    pointer-events: none;
+    height: 80%;
     max-width: 300%;
     z-index: -3;
 }
@@ -429,6 +420,8 @@ article img{
 .facts h2,.moonData h2{
     font-size: 1.7em;
     margin: 0 16px;
+    display: flex;
+    align-items: center;
 }
 
 .moonData{
@@ -439,6 +432,12 @@ article img{
     
    
 }
+
+.moon h2{
+    /* background-color: aqua; */
+    padding: 0%;
+}
+
 .moonData .fact{
     
    
@@ -450,11 +449,11 @@ article img{
     margin: auto;
     margin-bottom: -2px;
 }
-#moonsH2 img{
-    position: absolute;
+.chevron
+{
+    /* position: absolute; */
     width: 20px;
-    
-    margin: 14px;
+    margin: 10px;    
     transform: rotate(90deg);
 }
 
@@ -630,7 +629,6 @@ article img{
         width: 100%;
     }
     
-
 
     
 
